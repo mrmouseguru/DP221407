@@ -16,4 +16,9 @@ public class A {
         bRemote.printName();
     }
 
+    public void setBRemote(B bRemote) {
+        this.bRemote = bRemote;
+        
+    }
+
 }
