@@ -11,23 +11,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CalcualtorWindow extends JFrame
- implements ActionListener {
-    private JLabel jLabelInputRemote1, 
-    jLabelInputRemote2, jLabelOutputRemote;
+        implements ActionListener {
+    private JLabel jLabelInputRemote1,
+            jLabelInputRemote2, jLabelOutputRemote;
     private JTextField jTextFieldInputRemote1,
-    jTextFieldInputRemote2;
+            jTextFieldInputRemote2;
     private JPanel jPanelRemote;
     private JButton addButtonRemote, subButtonRemote,
-    mulButtonRemote, divButtonRemote;
-    
-    CalcualtorWindow(){
+            mulButtonRemote, divButtonRemote;
+
+    CalcualtorWindow() {
         buildPanel();
-        
 
         add(jPanelRemote);
 
         setTitle("Frame Viewer");
-        setSize(400,400);
+        setSize(400, 400);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -37,7 +36,7 @@ public class CalcualtorWindow extends JFrame
     public void buildPanel() {
         jPanelRemote = new JPanel();
 
-        //jPanelRemote.setBackground(Color.PINK);
+        // jPanelRemote.setBackground(Color.PINK);
 
         jLabelInputRemote1 = new JLabel("input1");
         jTextFieldInputRemote1 = new JTextField(10);
@@ -50,9 +49,10 @@ public class CalcualtorWindow extends JFrame
         jLabelOutputRemote = new JLabel("Output");
         jPanelRemote.add(jLabelOutputRemote);
         addButtonRemote = new JButton("ADD");
-        //đăng ký CalculatorWindow Object với ADD nút
-        addButtonRemote.addActionListener(this);//Remote của object CalculatorWindow === this
+        // đăng ký CalculatorWindow Object với ADD nút
+        addButtonRemote.addActionListener(this);// Remote của object CalculatorWindow === this
         subButtonRemote = new JButton("SUB");
+        subButtonRemote.addActionListener(this);
 
         jPanelRemote.add(addButtonRemote);
         jPanelRemote.add(subButtonRemote);
@@ -61,15 +61,31 @@ public class CalcualtorWindow extends JFrame
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        double num1 = Double.parseDouble(
-            jTextFieldInputRemote1.getText());
+        String command = e.getActionCommand();
 
-        double num2 = Double.parseDouble(
-                jTextFieldInputRemote1.getText());
-        
-        double result = num1 + num2;
+        if (command.equals("ADD")) {
 
-        jLabelOutputRemote.setText("" + result);
+            double num1 = Double.parseDouble(
+                    jTextFieldInputRemote1.getText());
+
+            double num2 = Double.parseDouble(
+                    jTextFieldInputRemote2.getText());
+
+            double result = num1 + num2;
+
+            jLabelOutputRemote.setText("" + result);
+
+        } else if (command.equals("SUB")) {
+            double num1 = Double.parseDouble(
+                    jTextFieldInputRemote1.getText());
+
+            double num2 = Double.parseDouble(
+                    jTextFieldInputRemote2.getText());
+
+            double result = num1 - num2;
+
+            jLabelOutputRemote.setText("" + result);
+        }
 
     }
 
