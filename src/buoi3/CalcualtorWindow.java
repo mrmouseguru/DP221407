@@ -20,7 +20,10 @@ public class CalcualtorWindow extends JFrame
     private JButton addButtonRemote, subButtonRemote,
             mulButtonRemote, divButtonRemote;
 
+    private Calculator calculatorRemote;
+
     CalcualtorWindow() {
+        calculatorRemote = new Calculator();
         buildPanel();
 
         add(jPanelRemote);
@@ -63,28 +66,19 @@ public class CalcualtorWindow extends JFrame
 
         String command = e.getActionCommand();
 
+        double num1 = Double.parseDouble(
+                jTextFieldInputRemote1.getText());
+
+        double num2 = Double.parseDouble(
+                jTextFieldInputRemote2.getText());
+
         if (command.equals("ADD")) {
-
-            double num1 = Double.parseDouble(
-                    jTextFieldInputRemote1.getText());
-
-            double num2 = Double.parseDouble(
-                    jTextFieldInputRemote2.getText());
-
-            double result = num1 + num2;
-
-            jLabelOutputRemote.setText("" + result);
+            calculatorRemote.add(num1, num2);
+            jLabelOutputRemote.setText("" + calculatorRemote.getResult());
 
         } else if (command.equals("SUB")) {
-            double num1 = Double.parseDouble(
-                    jTextFieldInputRemote1.getText());
-
-            double num2 = Double.parseDouble(
-                    jTextFieldInputRemote2.getText());
-
-            double result = num1 - num2;
-
-            jLabelOutputRemote.setText("" + result);
+            calculatorRemote.sub(num1, num2);
+            jLabelOutputRemote.setText("" + calculatorRemote.getResult());
         }
 
     }
