@@ -22,15 +22,7 @@ public class CalcualtorBoundary extends JFrame
 
     private CalculatorControl calculatorControlRemote;
 
-    public JTextField getjTextFieldInputRemote1() {
-        return jTextFieldInputRemote1;
-    }
-    public JTextField getjTextFieldInputRemote2() {
-        return jTextFieldInputRemote2;
-    }
-    public JLabel getjLabelOutputRemote() {
-        return jLabelOutputRemote;
-    }
+   
     CalcualtorBoundary() {
         calculatorControlRemote = new CalculatorControl(this);
         buildPanel();
@@ -70,6 +62,31 @@ public class CalcualtorBoundary extends JFrame
         jPanelRemote.add(subButtonRemote);
     }
 
-   
+    class CalculatorControl implements ActionListener {
+        //field
+        private CalculatorEntity calculatorEntityRemote = null;
+        CalculatorControl(CalcualtorBoundary calcualtorBoundaryRemote){
+            calculatorEntityRemote = new CalculatorEntity();
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            double num1 = Double.parseDouble(
+                    jTextFieldInputRemote1.getText());
+            double num2 = Double.parseDouble(
+                    jTextFieldInputRemote2.getText());
+    
+            if (command.equals("ADD")) {
+                calculatorEntityRemote.add(num1, num2);
+                jLabelOutputRemote.setText("" + calculatorEntityRemote.getResult());
+    
+            } else if (command.equals("SUB")) {
+                calculatorEntityRemote.sub(num1, num2);
+                jLabelOutputRemote.setText("" + calculatorEntityRemote.getResult());
+            }
+    
+        }
+    }
+    
 
 }
