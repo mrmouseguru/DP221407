@@ -13,6 +13,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import buoi4.mvc.command_processor.AddCommand;
+import buoi4.mvc.command_processor.Command;
+import buoi4.mvc.command_processor.CommandProcessor;
 import buoi4.mvc.observer.Subcriber;
 
 public class CalcualtorView extends JFrame implements Subcriber
@@ -29,9 +32,11 @@ public class CalcualtorView extends JFrame implements Subcriber
     private CalculatorController calculatorControlRemote;
     private MenuController menuControllerRemote = null;
     private CalculatorModel calculatorModelRemote;
+    private CommandProcessor commandProcessorRemote = null;
 
    
     CalcualtorView() {
+        commandProcessorRemote = CommandProcessor.makeCommandProcessor();
         calculatorModelRemote = new CalculatorModel();//publisher
         //đăng ký view - subcriber với publisher
         calculatorModelRemote.subcribe(this);
@@ -123,8 +128,11 @@ public class CalcualtorView extends JFrame implements Subcriber
             double num2 = Double.parseDouble(
                     jTextFieldInputRemote2.getText());
     
+            Command commandRemote = null;
             if (command.equals("ADD")) {
-                calculatorModelRemote.add(num1, num2);
+                //calculatorModelRemote.add(num1, num2);
+                commandRemote = new AddCommand(calculatorModelRemote, num1, num2);
+                commandProcessorRemote.execute(commandRemote);
                 
                 //jLabelOutputRemote.setText("" + calculatorModelRemote.getResult());
     
