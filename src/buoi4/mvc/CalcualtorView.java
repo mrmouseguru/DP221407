@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -21,8 +24,10 @@ public class CalcualtorView extends JFrame implements Subcriber
     private JPanel jPanelRemote;
     private JButton addButtonRemote, subButtonRemote,
             mulButtonRemote, divButtonRemote;
+    private JMenuBar menuBarRemote = null;
 
     private CalculatorController calculatorControlRemote;
+    private MenuController menuControllerRemote = null;
     private CalculatorModel calculatorModelRemote;
 
    
@@ -31,7 +36,9 @@ public class CalcualtorView extends JFrame implements Subcriber
         //đăng ký view - subcriber với publisher
         calculatorModelRemote.subcribe(this);
         calculatorControlRemote = new CalculatorController();
+        menuControllerRemote = new MenuController();
         buildPanel();
+        buildMenu();
 
         add(jPanelRemote);
 
@@ -68,6 +75,21 @@ public class CalcualtorView extends JFrame implements Subcriber
         jPanelRemote.add(subButtonRemote);
     }
 
+    public void buildMenu() {
+        menuBarRemote = new JMenuBar();
+
+        //đưa thanh Menu vào trong cửa sổ
+        setJMenuBar(menuBarRemote);
+        //Menu
+        JMenu calcualtorMenuRemote = new JMenu("Calculator");
+        //đặt Menu vào trong Menu Bar
+        menuBarRemote.add(calcualtorMenuRemote);
+        //Menu Itm
+        JMenuItem addMenuItemRemote = new JMenuItem("ADD");
+        addMenuItemRemote.addActionListener(menuControllerRemote);
+        //đặt item vào trong Menu
+        calcualtorMenuRemote.add(addMenuItemRemote);
+    }
     class CalculatorController implements ActionListener {
         
         @Override
@@ -91,6 +113,28 @@ public class CalcualtorView extends JFrame implements Subcriber
         }
     }
 
+    class MenuController implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            double num1 = Double.parseDouble(
+                    jTextFieldInputRemote1.getText());
+            double num2 = Double.parseDouble(
+                    jTextFieldInputRemote2.getText());
+    
+            if (command.equals("ADD")) {
+                calculatorModelRemote.add(num1, num2);
+                
+                //jLabelOutputRemote.setText("" + calculatorModelRemote.getResult());
+    
+            } else if (command.equals("SUB")) {
+                calculatorModelRemote.sub(num1, num2);
+                //jLabelOutputRemote.setText("" + calculatorModelRemote.getResult());
+            }
+        }
+        
+    }
     @Override
     public void update() {
         double result = calculatorModelRemote.getResult();
